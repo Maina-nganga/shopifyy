@@ -1,0 +1,81 @@
+
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #4f46e5; /* Indigo */
+  }
+  
+  .search-input {
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+  
+  .search-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.6rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    color: #9ca3af;
+  }
+  
+  .signin-btn {
+    background-color: #4f46e5;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signin-btn:hover {
+    background-color: #4338ca;
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #4f46e5;
+    color: white;
+    font-size: 0.75rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobile-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    color: #374151;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .mobile-link:hover {
+    color: #4f46e5;
+  }
+  
