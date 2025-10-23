@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartIcon, HeartIcon } from "lucide-react";
 import { useCart } from "../../context/CartContext";
-import "./ProductCard.css";
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -14,35 +12,38 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card">
-      <Link to={`/products/${product.id}`} className="product-link">
-        <div className="product-image-wrapper">
+    <div className="relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group">
+      <Link to={`/products/${product.id}`}>
+        <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
-            className="product-image"
+            className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
         </div>
-        <div className="product-info">
-          <h3 className="product-name">{product.name}</h3>
-          <div className="product-bottom">
-            <p className="product-price">${product.price.toFixed(2)}</p>
-            <div className="product-rating">
-              <span className="star">★</span>
-              <span className="rating-value">{product.rating}</span>
+        <div className="p-4">
+          <h3 className="text-gray-900 font-medium text-lg">{product.name}</h3>
+          <div className="mt-2 flex items-center justify-between">
+            <p className="text-indigo-600 font-semibold">${product.price.toFixed(2)}</p>
+            <div className="flex items-center space-x-1 text-yellow-400">
+              <span>★</span>
+              <span className="text-gray-600 font-medium">{product.rating}</span>
             </div>
           </div>
         </div>
       </Link>
 
-      <div className="product-hover">
-        <button onClick={handleAddToCart} className="add-to-cart-btn">
-          <ShoppingCartIcon className="icon" />
+ 
+      <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center space-x-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button
+          onClick={handleAddToCart}
+          className="flex items-center space-x-1 bg-indigo-600 text-white px-3 py-1.5 rounded-md text-sm hover:bg-indigo-700 transition-colors duration-200"
+        >
+          <ShoppingCartIcon className="w-4 h-4" />
           <span>Add to Cart</span>
         </button>
-
-        <button className="wishlist-btn">
-          <HeartIcon className="icon" />
+        <button className="p-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors duration-200">
+          <HeartIcon className="w-4 h-4 text-red-500" />
         </button>
       </div>
     </div>
