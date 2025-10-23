@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { FilterIcon, GridIcon, ListIcon } from 'lucide-react'
 import ProductCard from '../Components/ProductCard/productcard'
-// import { products, getProductsByCategory } from '../data/data'
+
 
 const Products = () => {
   const location = useLocation()
@@ -12,16 +12,15 @@ const Products = () => {
   const [category, setCategory] = useState(categoryParam || '')
   const [sortBy, setSortBy] = useState('featured')
   const [viewMode, setViewMode] = useState('grid')
-  const [products, setProducts] = useState([]) // Added state for all products
+  const [products, setProducts] = useState([]) 
   const [filteredProducts, setFilteredProducts] = useState([])
   const [priceRange, setPriceRange] = useState([0, 300])
   const [showFilters, setShowFilters] = useState(false)
 
-  // New useEffect to fetch products from the mock API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://mp9cef248d38e169bc81.free.beeceptor.com/data');
+        const response = await fetch('https://mp1a9cfd9f00c2aaadeb.free.beeceptor.com/');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -32,14 +31,14 @@ const Products = () => {
         } else if (data && Array.isArray(data.products)) {
           productsToSet = data.products;
         }
-        setProducts(productsToSet); // Set all products
+        setProducts(productsToSet); 
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []); 
 
   useEffect(() => {
     if (!Array.isArray(products)) {
@@ -71,7 +70,7 @@ const Products = () => {
     }
 
     setFilteredProducts(currentProducts)
-  }, [products, categoryParam, sortBy, priceRange]) // Added products to dependency array
+  }, [products, categoryParam, sortBy, priceRange]) 
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value)

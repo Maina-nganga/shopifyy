@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import ProductCard from '../Components/ProductCard/productcard'
 import Button from '../Components/Button/Button'
-// import { getFeaturedProducts } from '../data/data'
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([])
@@ -11,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await fetch('https://mp9cef248d38e169bc81.free.beeceptor.com/data'); // Fetch 4 products for featured
+        const response = await fetch('https://mp1a9cfd9f00c2aaadeb.free.beeceptor.com/'); // Fetch 4 products for featured
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -31,11 +30,11 @@ const Home = () => {
     fetchFeaturedProducts();
   }, []);
 
-  // const featuredProducts = getFeaturedProducts()
+  
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
+      
       <section className="bg-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="flex flex-col md:flex-row items-center">
@@ -69,7 +68,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">
@@ -120,7 +118,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Products Section */}
+
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
@@ -141,7 +139,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Call to Action Section */}
       <section className="py-16 bg-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center">
@@ -180,7 +177,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
+
       <section className="py-16 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">

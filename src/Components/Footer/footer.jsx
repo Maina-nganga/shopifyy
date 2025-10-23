@@ -53,9 +53,9 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-2">Connect With Us</h3>
           <div className="flex space-x-4 text-sm">
-            <a href="#" className="hover:underline">Facebook</a>
-            <a href="#" className="hover:underline">Instagram</a>
-            <a href="#" className="hover:underline">Twitter</a>
+            <button type="button" className="hover:underline">Facebook</button>
+            <button type="button" className="hover:underline">Instagram</button>
+            <button type="button" className="hover:underline">Twitter</button>
           </div>
         </div>
       </div>

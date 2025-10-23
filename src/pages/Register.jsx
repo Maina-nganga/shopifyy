@@ -151,19 +151,19 @@ export default function Register() {
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
                 I agree to the{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/terms-of-service"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Terms of Service
-                </a>{" "}
+                </Link>{" "}
                 and{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/privacy-policy"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </label>
             </div>
 
@@ -189,8 +189,8 @@ export default function Register() {
 
            
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <a
-                href="#"
+              <button
+                type="button"
                 className="flex justify-center items-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <svg
@@ -201,10 +201,10 @@ export default function Register() {
                   <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
                 </svg>
                 Google
-              </a>
+              </button>
 
-              <a
-                href="#"
+              <button
+                type="button"
                 className="flex justify-center items-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <svg
@@ -215,7 +215,7 @@ export default function Register() {
                   <path d="M22,12c0-5.52-4.48-10-10-10S2,6.48,2,12c0,4.84,3.44,8.87,8,9.8V15H8v-3h2V9.5C10,7.57,11.57,6,13.5,6H16v3h-2 c-0.55,0-1,0.45-1,1v2h3v3h-3v6.95C18.05,21.45,22,17.19,22,12z" />
                 </svg>
                 Facebook
-              </a>
+              </button>
             </div>
           </div>
         </div>
