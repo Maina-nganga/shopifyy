@@ -1,8 +1,9 @@
 import  React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// Navbar lives in the shopify app folder; adjust the relative path
-import Navbar from '../shopify/src/Components/Navbar/navbar'
+// Navbar component in this project
+import Navbar from '../../Components/Navbar/navbar'
+import './login.css'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -16,38 +17,25 @@ export default function Login() {
   return (
     <>
       <Navbar />
-      <div className="max-w-md mx-auto mt-12 p-6 bg-white rounded shadow">
-        <h1 className="text-2xl font-semibold mb-4">Sign in to your account</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              name="email"
-              type="email"
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+      <div className="login-wrap">
+        <div className="login-card">
+          <h1 className="login-title">Sign in to your account</h1>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="field">
+              <label className="label">Email</label>
+              <input name="email" type="email" required className="input" />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              name="password"
-              type="password"
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+            <div className="field">
+              <label className="label">Password</label>
+              <input name="password" type="password" required className="input" />
+            </div>
 
-          <div className="flex items-center justify-between">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-            >
-              Sign In
-            </button>
-          </div>
-        </form>
+            <div className="actions">
+              <button type="submit" className="btn btn-primary">Sign In</button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   )
