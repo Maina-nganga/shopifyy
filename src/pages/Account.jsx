@@ -174,7 +174,12 @@ const Account = () => {
                           </span>
                         </td>
                         <td className="px-6 py-4 text-sm text-indigo-600">
-                          <a href="#">View Order</a>
+                          <button
+                            onClick={handleViewOrder}
+                            className="text-indigo-600 hover:underline"
+                          >
+                            View Order
+                          </button>
                         </td>
                       </tr>
                     </tbody>
