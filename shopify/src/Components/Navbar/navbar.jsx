@@ -7,8 +7,8 @@ import {
   X as CloseIcon,
   SearchIcon,
 } from "lucide-react";
-import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../Context/CartContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,7 +25,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
           
           <Link to="/" className="text-xl font-bold text-indigo-600">
-            ShopEase
+            Shopify
           </Link>
 
          
@@ -68,7 +68,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="text-gray-700 hover:text-indigo-600 px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+                  className="px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                 >
                   Sign In
                 </Link>

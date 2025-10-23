@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBagIcon, ArrowRightIcon } from "lucide-react";
-import CartItem from "../components/ui/CartItem";
-import Button from "../components/ui/Button";
-import { useCart } from "../context/CartContext";
+import CartItem from "../Components/CartItem/cartitem";
+import Button from "../Components/Button/Button";
+import { useCart } from "../Context/CartContext";
 
 export default function Cart() {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -15,7 +15,7 @@ export default function Cart() {
 
   const subtotal = getCartTotal();
   const shipping = subtotal > 50 ? 0 : 5.99;
-  const tax = subtotal * 0.08; // 8% tax rate
+  const tax = subtotal * 0.08; 
   const total = subtotal + shipping + tax;
 
   return (
@@ -26,7 +26,7 @@ export default function Cart() {
         </h1>
 
         {cart.length === 0 ? (
-          // ---------------- EMPTY CART ----------------
+         
           <div className="text-center py-12">
             <ShoppingBagIcon className="mx-auto h-16 w-16 text-gray-400" />
             <h2 className="mt-4 text-lg font-medium text-gray-900">
@@ -42,9 +42,9 @@ export default function Cart() {
             </div>
           </div>
         ) : (
-          // ---------------- CART WITH ITEMS ----------------
+        
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items Section */}
+           
             <div className="lg:col-span-2">
               <div className="bg-white shadow-sm rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200">
@@ -81,7 +81,7 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* Order Summary Section */}
+          
             <div className="lg:col-span-1">
               <div className="bg-white shadow-sm rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200">
@@ -133,7 +133,7 @@ export default function Cart() {
                 </div>
               </div>
 
-              {/* Promo Code */}
+              
               <div className="mt-6 bg-white shadow-sm rounded-lg p-6">
                 <h3 className="text-sm font-medium text-gray-900 mb-4">
                   Have a promo code?

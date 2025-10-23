@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-gray-700 mt-12">
+    <footer className="bg-gray-800 text-white ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
  
         <div>
-          <h3 className="text-lg font-bold mb-2">ShopEase</h3>
+          <h3 className="text-lg font-bold mb-2">Shopify</h3>
           <p className="text-sm">Your one-stop shop for all your shopping needs.</p>
         </div>
 

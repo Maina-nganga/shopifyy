@@ -8,9 +8,9 @@ import {
   ShieldIcon,
   ArrowLeftIcon,
 } from 'lucide-react'
-import Button from '../components/ui/Button'
-import { getProductById } from '../data/products'
-import { useCart } from '../context/CartContext'
+import Button from '../Components/Button/Button'
+import { getProductById } from '../data/data'
+import { useCart } from '../Context/CartContext'
 
 const ProductDetail = () => {
   const { id } = useParams()
