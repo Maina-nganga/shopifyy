@@ -14,6 +14,9 @@ const Account = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
+  const handleViewOrder = (orderId) => { 
+  navigate(`/orders/${orderId}`);
+  };
 
   if (!user) {
     navigate("/login");
@@ -175,7 +178,7 @@ const Account = () => {
                         </td>
                         <td className="px-6 py-4 text-sm text-indigo-600">
                           <button
-                            onClick={handleViewOrder}
+                            onClick={() => handleViewOrder("12345")}
                             className="text-indigo-600 hover:underline"
                           >
                             View Order
