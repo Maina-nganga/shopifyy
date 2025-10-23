@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import ProductList from "./ProductList";
 import Cart from "./Cart";
-import products from "./data";
-import Login from "./Login";
 import Register from "./Register";
 import "./App.css";
 
@@ -32,7 +29,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Welcome, {user.name} 👋</h1>
+      <h1>Welcome, {user.name} </h1>
       <button onClick={() => setUser(null)}>Logout</button>
       <div className="content">
         <ProductList products={products} onAddToCart={handleAddToCart} />
