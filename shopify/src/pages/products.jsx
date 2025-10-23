@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { FilterIcon, GridIcon, ListIcon } from 'lucide-react'
-import ProductCard from '../components/ui/ProductCard'
-import { products, getProductsByCategory } from '../data/products'
+import ProductCard from '../Components/ProductCard/productcard'
+// import { products, getProductsByCategory } from '../data/data'
 
 const Products = () => {
   const location = useLocation()
@@ -12,39 +12,66 @@ const Products = () => {
   const [category, setCategory] = useState(categoryParam || '')
   const [sortBy, setSortBy] = useState('featured')
   const [viewMode, setViewMode] = useState('grid')
+  const [products, setProducts] = useState([]) // Added state for all products
   const [filteredProducts, setFilteredProducts] = useState([])
   const [priceRange, setPriceRange] = useState([0, 300])
   const [showFilters, setShowFilters] = useState(false)
 
+  // New useEffect to fetch products from the mock API
   useEffect(() => {
-    let filtered = categoryParam
-      ? getProductsByCategory(categoryParam)
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('https://mp9cef248d38e169bc81.free.beeceptor.com/data');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        let productsToSet = [];
+        if (Array.isArray(data)) {
+          productsToSet = data;
+        } else if (data && Array.isArray(data.products)) {
+          productsToSet = data.products;
+        }
+        setProducts(productsToSet); // Set all products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []); // Empty dependency array means this runs once on mount
+
+  useEffect(() => {
+    if (!Array.isArray(products)) {
+      setFilteredProducts([]);
+      return;
+    }
+
+    let currentProducts = categoryParam
+      ? products.filter(product => product.category === categoryParam)
       : products
 
-
-    filtered = filtered.filter(
+    currentProducts = currentProducts.filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1]
     )
 
-    
     switch (sortBy) {
       case 'price-low-high':
-        filtered.sort((a, b) => a.price - b.price)
+        currentProducts.sort((a, b) => a.price - b.price)
         break
       case 'price-high-low':
-        filtered.sort((a, b) => b.price - a.price)
+        currentProducts.sort((a, b) => b.price - a.price)
         break
       case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating)
+        currentProducts.sort((a, b) => b.rating - a.rating)
         break
       default:
-      
         break
     }
 
-    setFilteredProducts(filtered)
-  }, [categoryParam, sortBy, priceRange])
+    setFilteredProducts(currentProducts)
+  }, [products, categoryParam, sortBy, priceRange]) // Added products to dependency array
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value)
@@ -62,8 +89,13 @@ const Products = () => {
       `${location.pathname}?${params.toString()}`
     )
 
+    if (!Array.isArray(products)) {
+      setFilteredProducts([]);
+      return;
+    }
+
     if (e.target.value) {
-      setFilteredProducts(getProductsByCategory(e.target.value))
+      setFilteredProducts(products.filter(product => product.category === e.target.value))
     } else {
       setFilteredProducts(products)
     }

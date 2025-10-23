@@ -1,17 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import ProductCard from '../Components/ProductCard/productcard'
-import Button from '../Components/button/button'
-import { getFeaturedProducts } from '../data/products'
+import Button from '../Components/Button/Button'
+// import { getFeaturedProducts } from '../data/data'
 
 const Home = () => {
-  const featuredProducts = getFeaturedProducts()
+  const [featuredProducts, setFeaturedProducts] = useState([])
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await fetch('https://mp9cef248d38e169bc81.free.beeceptor.com/data'); // Fetch 4 products for featured
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        let productsToSet = [];
+        if (Array.isArray(data)) {
+          productsToSet = data;
+        } else if (data && Array.isArray(data.products)) {
+          productsToSet = data.products;
+        }
+        setFeaturedProducts(productsToSet);
+      } catch (error) {
+        console.error("Error fetching featured products:", error);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
+  // const featuredProducts = getFeaturedProducts()
 
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-indigo-700 text-white">
+      <section className="bg-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
@@ -116,7 +141,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Special Offer Section */}
+      {/* Call to Action Section */}
       <section className="py-16 bg-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center">
