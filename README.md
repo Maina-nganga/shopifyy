@@ -1,6 +1,6 @@
 Shopify Website
 
-A modern Shopify web application built with React and TailwindCSS. This app allows users to browse products, manage their shopping cart, and handle authentication seamlessly.
+A modern Shopify web application built with React and TailwindCSS. This website allows users to browse products, manage their shopping cart, and handle authentication seamlessly.
 
 https://shopifyy-mu.vercel.app/
 
