@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     if (email && password) {
       const newUser = {
         id: 1,
-        name: "John Doe",
+        name: email,
         email,
       };
       setUser(newUser);
@@ -54,6 +54,13 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateUser = (updatedFields) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      ...updatedFields,
+    }));
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -61,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        updateUser,
       }}
     >
       {children}

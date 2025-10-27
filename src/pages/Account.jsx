@@ -11,11 +11,17 @@ import Button from "../Components/Button/Button";
 import { useAuth } from "../Context/AuthContext";
 
 const Account = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
-  const handleViewOrder = (orderId) => { 
-  navigate(`/orders/${orderId}`);
+
+  const [firstName, setFirstName] = useState(user.name.split(" ")[0]);
+  const [lastName, setLastName] = useState(user.name.split(" ")[1] || "");
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.phone || "");
+
+  const handleViewOrder = (orderId) => {
+    navigate(`/orders/${orderId}`);
   };
 
   if (!user) {
@@ -26,6 +32,17 @@ const Account = () => {
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedFields = {
+      name: `${firstName} ${lastName}`.trim(),
+      email,
+      phone,
+    };
+    updateUser(updatedFields);
+    alert("Profile updated successfully!");
   };
 
   return (
@@ -84,7 +101,7 @@ const Account = () => {
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">
                   Profile Information
                 </h2>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
@@ -92,7 +109,8 @@ const Account = () => {
                       </label>
                       <input
                         type="text"
-                        defaultValue={user.name.split(" ")[0]}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         className="mt-1 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
@@ -102,7 +120,8 @@ const Account = () => {
                       </label>
                       <input
                         type="text"
-                        defaultValue={user.name.split(" ")[1] || ""}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         className="mt-1 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
@@ -112,7 +131,8 @@ const Account = () => {
                       </label>
                       <input
                         type="email"
-                        defaultValue={user.email}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="mt-1 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
@@ -122,12 +142,14 @@ const Account = () => {
                       </label>
                       <input
                         type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         className="mt-1 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
                   </div>
                   <div className="flex justify-end">
-                    <Button>Save Changes</Button>
+                    <Button type="submit">Save Changes</Button>
                   </div>
                 </form>
               </section>

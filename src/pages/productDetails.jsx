@@ -82,7 +82,7 @@ const ProductDetail = () => {
             </div>
 
           
-            <p className="text-3xl text-gray-900 mt-6">${product.price.toFixed(2)}</p>
+            <p className="text-3xl text-gray-900 mt-6">{product.price.toFixed(2)}</p>
             <p className="text-base text-gray-700 mt-4">{product.description}</p>
 
             
@@ -129,7 +129,7 @@ const ProductDetail = () => {
 
            
             <div className="mt-6 border-t border-gray-200 pt-6 flex space-x-6 text-sm text-gray-500">
-              <div className="flex items-center"><TruckIcon className="h-5 w-5 mr-1" />Free shipping over $50</div>
+              <div className="flex items-center"><TruckIcon className="h-5 w-5 mr-1" />Free shipping over 50</div>
               <div className="flex items-center"><ShieldIcon className="h-5 w-5 mr-1" />2-year warranty</div>
             </div>
           </div>
