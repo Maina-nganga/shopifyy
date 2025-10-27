@@ -12,12 +12,20 @@ import { useAuth } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { cart } = useCart();
   const { user } = useAuth();
 
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      window.location.href = `/products?search=${searchTerm}`;
+    }
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -42,12 +50,18 @@ const Navbar = () => {
 
            
             <div className="relative">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="border border-gray-300 rounded-md px-3 py-1.5 pr-10 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-              <SearchIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <form onSubmit={handleSearch}>
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="border border-gray-300 rounded-md px-3 py-1.5 pr-10 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button type="submit" className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 focus:outline-none">
+                  <SearchIcon className="w-4 h-4 text-gray-400" />
+                </button>
+              </form>
             </div>
 
             
@@ -132,12 +146,18 @@ const Navbar = () => {
             </Link>
           )}
           <div className="relative mt-3">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full border border-gray-300 rounded-md px-3 py-1.5 pr-10 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            />
-            <SearchIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 pr-10 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button type="submit" className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 focus:outline-none">
+                <SearchIcon className="w-4 h-4 text-gray-400" />
+              </button>
+            </form>
           </div>
         </div>
       )}
