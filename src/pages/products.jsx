@@ -8,6 +8,7 @@ const Products = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const categoryParam = queryParams.get('category')
+  const searchTermParam = queryParams.get('search');
 
   const [category, setCategory] = useState(categoryParam || '')
   const [sortBy, setSortBy] = useState('featured')
@@ -49,6 +50,12 @@ const Products = () => {
     let currentProducts = categoryParam
       ? products.filter(product => product.category === categoryParam)
       : products
+
+    if (searchTermParam) {
+      currentProducts = currentProducts.filter(product =>
+        product.name.toLowerCase().includes(searchTermParam.toLowerCase())
+      );
+    }
 
     currentProducts = currentProducts.filter(
       (product) =>
@@ -96,7 +103,13 @@ const Products = () => {
     if (e.target.value) {
       setFilteredProducts(products.filter(product => product.category === e.target.value))
     } else {
-      setFilteredProducts(products)
+      let productsToFilter = products;
+      if (searchTermParam) {
+        productsToFilter = products.filter(product =>
+          product.name.toLowerCase().includes(searchTermParam.toLowerCase())
+        );
+      }
+      setFilteredProducts(productsToFilter)
     }
   }
 
@@ -242,7 +255,7 @@ const Products = () => {
                 <h1 className="text-2xl font-bold text-gray-900">
                   {category
                     ? `${category.charAt(0).toUpperCase() + category.slice(1)}`
-                    : 'All Products'}
+                    : searchTermParam ? `Search Results for "${searchTermParam}"` : 'All Products'}
                 </h1>
                 <p className="text-gray-500 text-sm mt-1">
                   {filteredProducts.length} products
@@ -350,7 +363,7 @@ const Products = () => {
                       </p>
                       <div className="mt-auto flex items-center justify-between">
                         <p className="text-xl font-semibold text-gray-900">
-                          ${product.price.toFixed(2)}
+                          {product.price.toFixed(2)}
                         </p>
                         <button
                           className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
