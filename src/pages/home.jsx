@@ -30,11 +30,8 @@ const Home = () => {
     fetchFeaturedProducts();
   }, []);
 
-  
-
   return (
     <div className="w-full">
-      
       <section className="bg-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="flex flex-col md:flex-row items-center">

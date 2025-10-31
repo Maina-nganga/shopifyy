@@ -44,8 +44,7 @@ const ProductDetail = () => {
   return (
     <div className="bg-white w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-       
-        <nav className="flex mb-8 text-gray-500" aria-label="Breadcrumb">
+       <nav className="flex mb-8 text-gray-500" aria-label="Breadcrumb">
           <button onClick={() => navigate('/')} className="hover:text-gray-700">Home</button>
           <span className="mx-2">/</span>
           <button onClick={() => navigate('/products')} className="hover:text-gray-700">Products</button>
@@ -53,9 +52,7 @@ const ProductDetail = () => {
           <span className="text-gray-900 font-medium">{product.name}</span>
         </nav>
 
-       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-       
           <div className="bg-gray-100 rounded-lg overflow-hidden">
             <img
               src={product.image}
@@ -65,11 +62,9 @@ const ProductDetail = () => {
             />
           </div>
 
-      
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
 
-            
             <div className="flex items-center mt-3">
               {Array(5).fill().map((_, i) => (
                 <StarIcon
@@ -81,11 +76,9 @@ const ProductDetail = () => {
               <span className="ml-2 text-gray-600">{product.reviews} reviews</span>
             </div>
 
-          
             <p className="text-3xl text-gray-900 mt-6">{product.price.toFixed(2)}</p>
             <p className="text-base text-gray-700 mt-4">{product.description}</p>
 
-            
             <div className="mt-6">
               <h3 className="text-sm font-medium text-gray-900">Features:</h3>
               <ul className="mt-2 space-y-2">
@@ -98,7 +91,6 @@ const ProductDetail = () => {
               </ul>
             </div>
 
-           
             <p className={`mt-4 text-sm font-medium ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
               {product.inStock ? 'In Stock' : 'Out of Stock'}
             </p>
@@ -115,7 +107,6 @@ const ProductDetail = () => {
               </select>
             </div>
 
-            
             <div className="mt-6 flex flex-col space-y-4">
               <Button onClick={handleAddToCart} fullWidth disabled={!product.inStock}>
                 <ShoppingCartIcon className="h-5 w-5 mr-2" />
@@ -127,7 +118,6 @@ const ProductDetail = () => {
               </Button>
             </div>
 
-           
             <div className="mt-6 border-t border-gray-200 pt-6 flex space-x-6 text-sm text-gray-500">
               <div className="flex items-center"><TruckIcon className="h-5 w-5 mr-1" />Free shipping over 50</div>
               <div className="flex items-center"><ShieldIcon className="h-5 w-5 mr-1" />2-year warranty</div>
@@ -135,7 +125,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-       
         <div className="mt-16">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8">
@@ -169,13 +158,36 @@ const ProductDetail = () => {
             {activeTab === 'reviews' && (
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Customer Reviews</h3>
-                <p className="text-gray-700">Sample reviews content here...</p>
+            
+                {product.reviews && product.reviews.length > 0 ? (
+                  <div className="space-y-6">
+                    {product.reviews.map((review, i) => (
+                      <div key={i} className="border-b border-gray-200 pb-6 last:border-b-0">
+                        <div className="flex items-center mb-2">
+                          {Array(5).fill().map((_, j) => (
+                            <StarIcon
+                              key={j}
+                              className={`h-4 w-4 ${j < review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                              fill="currentColor"
+                            />
+                          ))}
+                          <p className="ml-3 text-sm font-medium text-gray-900">{review.author}</p>
+                        </div>
+                        <p className="text-gray-700">{review.comment}</p>
+                        <p className="mt-2 text-xs text-gray-500">{review.date}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-600">No reviews yet. Be the first to review this product!</p>
+                )}
               </div>
             )}
             {activeTab === 'shipping' && (
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Shipping & Returns</h3>
-                <p className="text-gray-700">Shipping and return info here...</p>
+             
+                <p className="text-gray-700">We offer free standard shipping on all orders over $50. Expedited shipping options are available at checkout. Returns are accepted within 30 days of purchase, provided the item is in its original condition. Please see our full shipping and returns policy for more details.</p>
               </div>
             )}
           </div>

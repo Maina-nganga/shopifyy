@@ -164,15 +164,15 @@ const Checkout = () => {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span>$120.00</span>
+                <span>120.00</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
-                <span>$5.00</span>
+                <span>5.00</span>
               </div>
               <div className="flex justify-between text-gray-800 font-semibold border-t pt-3">
                 <span>Total</span>
-                <span>$125.00</span>
+                <span>125.00</span>
               </div>
             </div>
 

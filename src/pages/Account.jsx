@@ -51,7 +51,6 @@ const Account = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-10">My Account</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-         
           <aside className="bg-white shadow rounded-lg overflow-hidden">
             <div className="p-6 border-b border-gray-200 flex items-center">
               <div className="bg-indigo-100 p-3 rounded-full">
@@ -93,9 +92,7 @@ const Account = () => {
             </nav>
           </aside>
 
-         
           <main className="md:col-span-3 bg-white shadow rounded-lg p-6">
-           
             {activeTab === "profile" && (
               <section>
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">
@@ -155,91 +152,102 @@ const Account = () => {
               </section>
             )}
 
-          
             {activeTab === "orders" && (
               <section>
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">
                   Order History
                 </h2>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                          Order ID
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                          Date
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                          Total
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 text-sm text-gray-900 font-medium">
-                          #12345
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
-                          May 15, 2023
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
-                          $129.99
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                            Delivered
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-indigo-600">
-                          <button
-                            onClick={() => handleViewOrder("12345")}
-                            className="text-indigo-600 hover:underline"
-                          >
-                            View Order
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                {/* Placeholder for dynamic order data */}
+                {user.orders && user.orders.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                            Order ID
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                            Date
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                            Total
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                            Status
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {user.orders.map((order) => (
+                          <tr key={order.id}>
+                            <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+                              #{order.id}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-500">
+                              {order.date}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-500">
+                              ${order.total}
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 text-xs font-semibold rounded-full ${order.status === "Delivered" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>
+                                {order.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-indigo-600">
+                              <button
+                                onClick={() => handleViewOrder(order.id)}
+                                className="text-indigo-600 hover:underline"
+                              >
+                                View Order
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-gray-600">No orders found.</p>
+                )}
               </section>
             )}
 
-           
             {activeTab === "wishlist" && (
               <section>
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">
                   My Wishlist
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="border border-gray-200 rounded-lg overflow-hidden">
-                    <img
-                      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-                      alt="Wireless Headphones"
-                      className="h-48 w-full object-cover"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        Wireless Noise Cancelling Headphones
-                      </h3>
-                      <p className="text-sm text-gray-500">$249.99</p>
-                      <div className="mt-4 flex space-x-2">
-                        <Button variant="secondary" size="small">
-                          Remove
-                        </Button>
-                        <Button size="small">Add to Cart</Button>
+                {user.wishlist && user.wishlist.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {user.wishlist.map((item) => (
+                      <div key={item.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-48 w-full object-cover"
+                        />
+                        <div className="p-4">
+                          <h3 className="text-sm font-medium text-gray-900">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-gray-500">${item.price}</p>
+                          <div className="mt-4 flex space-x-2">
+                            <Button variant="secondary" size="small">
+                              Remove
+                            </Button>
+                            <Button size="small">Add to Cart</Button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                </div>
+                ) : (
+                  <p className="text-gray-600">No items in wishlist.</p>
+                )}
               </section>
             )}
 
@@ -248,22 +256,31 @@ const Account = () => {
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">
                   Payment Methods
                 </h2>
-                <div className="border border-gray-200 rounded-lg p-4 flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="bg-gray-100 p-2 rounded-md">
-                      <CreditCardIcon className="h-6 w-6 text-gray-600" />
+            
+                {user.paymentMethods && user.paymentMethods.length > 0 ? (
+                  user.paymentMethods.map((method) => (
+                    <div key={method.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-center mb-4">
+                      <div className="flex items-center">
+                        <div className="bg-gray-100 p-2 rounded-md">
+                          <CreditCardIcon className="h-6 w-6 text-gray-600" />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-900">
+                            {method.brand} ending in {method.last4}
+                          </p>
+                          <p className="text-xs text-gray-500">Expires {method.expiry}</p>
+                        </div>
+                      </div>
+                      {method.isDefault && (
+                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                          Default
+                        </span>
+                      )}
                     </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-900">
-                        Visa ending in 4242
-                      </p>
-                      <p className="text-xs text-gray-500">Expires 12/2025</p>
-                    </div>
-                  </div>
-                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                    Default
-                  </span>
-                </div>
+                  ))
+                ) : (
+                  <p className="text-gray-600">No payment methods found.</p>
+                )}
                 <div className="mt-6">
                   <Button variant="secondary">Add Payment Method</Button>
                 </div>

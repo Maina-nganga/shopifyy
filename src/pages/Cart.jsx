@@ -14,8 +14,8 @@ export default function Cart() {
   };
 
   const subtotal = getCartTotal();
-  const shipping = subtotal > 50 ? 0 : 5.99;
-  const tax = subtotal * 0.08; 
+  const shipping = subtotal > 50 ? 0 : 5.99; // TODO: Externalize shipping cost logic
+  const tax = subtotal * 0.08; // TODO: Externalize tax rate
   const total = subtotal + shipping + tax;
 
   return (

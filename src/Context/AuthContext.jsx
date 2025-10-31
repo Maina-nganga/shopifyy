@@ -6,7 +6,6 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-   
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -22,10 +21,10 @@ export const AuthProvider = ({ children }) => {
 
   
   const login = (email, password) => {
-   
+    
     if (email && password) {
       const newUser = {
-        id: 1,
+        id: 1, 
         name: email,
         email,
       };
@@ -37,9 +36,10 @@ export const AuthProvider = ({ children }) => {
 
 
   const register = (name, email, password) => {
+    
     if (name && email && password) {
       const newUser = {
-        id: 1,
+        id: 1, 
         name,
         email,
       };

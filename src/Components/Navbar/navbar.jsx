@@ -10,6 +10,28 @@ import {
 import { useCart } from "../../Context/CartContext";
 import { useAuth } from "../../Context/AuthContext";
 
+const AuthLinks = ({ user, setIsMenuOpen }) => (
+  <>
+    {user ? (
+      <Link
+        to="/account"
+        onClick={() => setIsMenuOpen(false)}
+        className="block py-2 text-gray-700 hover:text-indigo-600"
+      >
+        My Account
+      </Link>
+    ) : (
+      <Link
+        to="/login"
+        onClick={() => setIsMenuOpen(false)}
+        className="block py-2 text-gray-700 hover:text-indigo-600"
+      >
+        Sign In
+      </Link>
+    )}
+  </>
+);
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,14 +53,10 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
           <Link to="/" className="text-xl font-bold text-indigo-600">
             Shopify
           </Link>
-
-         
           <div className="hidden md:flex items-center space-x-8">
-          
             <div className="flex space-x-4">
               <Link to="/" className="text-gray-700 hover:text-indigo-600">
                 Home
@@ -47,8 +65,6 @@ const Navbar = () => {
                 Products
               </Link>
             </div>
-
-           
             <div className="relative">
               <form onSubmit={handleSearch}>
                 <input
@@ -63,8 +79,6 @@ const Navbar = () => {
                 </button>
               </form>
             </div>
-
-            
             <div className="flex items-center space-x-4">
               <Link to="/cart" className="relative p-2">
                 <ShoppingCartIcon className="h-6 w-6 text-gray-700 hover:text-indigo-600" />
@@ -74,23 +88,9 @@ const Navbar = () => {
                   </span>
                 )}
               </Link>
-
-              {user ? (
-                <Link to="/account" className="p-2">
-                  <UserIcon className="h-6 w-6 text-gray-700 hover:text-indigo-600" />
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className="px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                >
-                  Sign In
-                </Link>
-              )}
+              <AuthLinks user={user} setIsMenuOpen={() => {}} />
             </div>
           </div>
-
-          
           <div className="flex md:hidden items-center">
             <Link to="/cart" className="relative p-2 mr-2">
               <ShoppingCartIcon className="h-6 w-6 text-gray-700" />
@@ -100,7 +100,6 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 focus:outline-none"
@@ -111,7 +110,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-lg pb-4 px-4 pt-2">
           <Link
@@ -128,23 +126,7 @@ const Navbar = () => {
           >
             Products
           </Link>
-          {user ? (
-            <Link
-              to="/account"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-indigo-600"
-            >
-              My Account
-            </Link>
-          ) : (
-            <Link
-              to="/login"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-indigo-600"
-            >
-              Sign In
-            </Link>
-          )}
+          <AuthLinks user={user} setIsMenuOpen={setIsMenuOpen} />
           <div className="relative mt-3">
             <form onSubmit={handleSearch}>
               <input
