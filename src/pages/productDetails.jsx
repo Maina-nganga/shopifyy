@@ -20,6 +20,12 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
 
+  const getRating = (p) => {
+    if (!p) return 0
+    if (p.rating && typeof p.rating === 'object') return p.rating.rate || 0
+    return typeof p.rating === 'number' ? p.rating : 0
+  }
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
@@ -69,7 +75,7 @@ const ProductDetail = () => {
               {Array(5).fill().map((_, i) => (
                 <StarIcon
                   key={i}
-                  className={`h-5 w-5 ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                  className={`h-5 w-5 ${i < Math.floor(getRating(product)) ? 'text-yellow-400' : 'text-gray-300'}`}
                   fill="currentColor"
                 />
               ))}

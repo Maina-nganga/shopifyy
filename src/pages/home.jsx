@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await fetch('https://mp1a9cfd9f00c2aaadeb.free.beeceptor.com/'); // Fetch 4 products for featured
+        const response = await fetch("https://fakestoreapi.com/products"); 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -74,39 +74,43 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                category: 'Electronics',
+                title: 'Electronics',
+                slug: 'electronics',
                 image:
                   'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=1000&q=80',
               },
               {
-                category: 'Clothing',
+                title: 'Clothing',
+                slug: 'clothing',
                 image:
                   'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1000&q=80',
               },
               {
-                category: 'Home & Kitchen',
+                title: 'Home & Kitchen',
+                slug: 'home',
                 image:
                   'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=1000&q=80',
               },
               {
-                category: 'Accessories',
+                title: 'Accessories',
+                slug: 'accessories',
                 image:
                   'https://images.unsplash.com/photo-1576053139778-7e32f2ae3cfd?auto=format&fit=crop&w=1000&q=80',
               },
-            ].map(({ category, image }) => (
+            ].map(({ title, slug, image }) => (
               <Link
-                key={category}
-                to={`/products?category=${category.toLowerCase()}`}
+                key={slug}
+                to={`/products?category=${encodeURIComponent(slug)}`}
                 className="group"
               >
                 <div className="relative overflow-hidden rounded-lg shadow-md h-64">
                   <img
                     src={image}
-                    alt={category}
+                    alt={title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-6">
-                    <h3 className="text-white text-xl font-bold">{category}</h3>
+                    <h3 className="text-white text-xl font-bold">{title}</h3>
                   </div>
                 </div>
               </Link>

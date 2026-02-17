@@ -18,10 +18,46 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, 300])
   const [showFilters, setShowFilters] = useState(false)
 
+  // Helpers to support product objects from different sources (e.g. fakestoreapi)
+  const getRating = (p) => {
+    if (!p) return 0
+    if (p.rating && typeof p.rating === 'object') return p.rating.rate || 0
+    return typeof p.rating === 'number' ? p.rating : 0
+  }
+
+  const getRatingCount = (p) => {
+    if (!p) return 0
+    if (p.rating && typeof p.rating === 'object') return p.rating.count || 0
+    return p.reviews || 0
+  }
+
+  // Map user-friendly slugs to possible product.category values from different sources
+  const categoryMap = {
+    accessories: ['accessories', 'jewelery', 'jewelry'],
+    clothing: ["clothing", "men's clothing", "women's clothing"],
+    home: ['home', 'home & kitchen', 'kitchen'],
+    electronics: ['electronics']
+  }
+
+  const matchesCategory = (product, cat) => {
+    if (!cat) return true
+    const prodCat = (product.category || '').toString().toLowerCase()
+    const normalized = cat.toString().toLowerCase()
+
+    // direct match or contains (handles slight variations)
+    if (prodCat === normalized || prodCat.includes(normalized)) return true
+
+    // mapped alternatives
+    const mapped = categoryMap[normalized]
+    if (mapped && mapped.some(m => prodCat === m || prodCat.includes(m))) return true
+
+    return false
+  }
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://mp1a9cfd9f00c2aaadeb.free.beeceptor.com/');
+        const response = await fetch("https://fakestoreapi.com/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -32,7 +68,19 @@ const Products = () => {
         } else if (data && Array.isArray(data.products)) {
           productsToSet = data.products;
         }
-        setProducts(productsToSet); 
+        // Normalize product.category values to canonical slugs used in the app
+        const normalizeCategoryForProduct = (p) => {
+          const prodCat = (p.category || '').toString().toLowerCase()
+          for (const [key, variants] of Object.entries(categoryMap)) {
+            if (variants.some(v => prodCat === v || prodCat.includes(v))) return key
+          }
+          // fallback: return a cleaned version (remove & and extra spaces)
+          return prodCat.replace('&', 'and').trim()
+        }
+
+        const normalizedProducts = productsToSet.map(p => ({ ...p, category: normalizeCategoryForProduct(p) }))
+
+        setProducts(normalizedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -48,7 +96,7 @@ const Products = () => {
     }
 
     let currentProducts = categoryParam
-      ? products.filter(product => product.category === categoryParam)
+      ? products.filter(product => matchesCategory(product, categoryParam))
       : products
 
     if (searchTermParam) {
@@ -70,7 +118,7 @@ const Products = () => {
         currentProducts.sort((a, b) => b.price - a.price)
         break
       case 'rating':
-        currentProducts.sort((a, b) => b.rating - a.rating)
+        currentProducts.sort((a, b) => getRating(b) - getRating(a))
         break
       default:
         break
@@ -101,7 +149,7 @@ const Products = () => {
     }
 
     if (e.target.value) {
-      setFilteredProducts(products.filter(product => product.category === e.target.value))
+      setFilteredProducts(products.filter(product => matchesCategory(product, e.target.value)))
     } else {
       let productsToFilter = products;
       if (searchTermParam) {
@@ -340,22 +388,22 @@ const Products = () => {
                       <div className="flex items-center mt-1">
                         <div className="flex items-center">
                           {Array(5)
-                            .fill()
-                            .map((_, i) => (
-                              <span
-                                key={i}
-                                className={
-                                  i < Math.floor(product.rating)
-                                    ? 'text-yellow-400'
-                                    : 'text-gray-300'
-                                }
-                              >
-                                ★
-                              </span>
-                            ))}
+                              .fill()
+                              .map((_, i) => (
+                                <span
+                                  key={i}
+                                  className={
+                                    i < Math.floor(getRating(product))
+                                      ? 'text-yellow-400'
+                                      : 'text-gray-300'
+                                  }
+                                >
+                                  ★
+                                </span>
+                              ))}
                         </div>
                         <span className="ml-1 text-sm text-gray-500">
-                          {product.reviews} reviews
+                          {getRatingCount(product)} reviews
                         </span>
                       </div>
                       <p className="text-gray-500 mt-2 line-clamp-2">

@@ -6,6 +6,10 @@ import { useCart } from "../../Context/CartContext";
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
+  // Support different product shapes (API uses `title` and `rating: { rate, count }`)
+  const title = product.title || product.name || '';
+  const ratingValue = product.rating && typeof product.rating === 'object' ? product.rating.rate : product.rating || 0;
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     addToCart(product);
@@ -22,12 +26,12 @@ const ProductCard = ({ product }) => {
           />
         </div>
         <div className="p-4">
-          <h3 className="text-gray-900 font-medium text-lg">{product.name}</h3>
+          <h3 className="text-gray-900 font-medium text-lg">{title}</h3>
           <div className="mt-2 flex items-center justify-between">
-            <p className="text-indigo-600 font-semibold">{product.price.toFixed(2)}</p>
+            <p className="text-indigo-600 font-semibold">{typeof product.price === 'number' ? product.price.toFixed(2) : product.price}</p>
             <div className="flex items-center space-x-1 text-yellow-400">
               <span>★</span>
-              <span className="text-gray-600 font-medium">{product.rating}</span>
+              <span className="text-gray-600 font-medium">{Number.isFinite(ratingValue) ? ratingValue.toFixed(1) : ratingValue}</span>
             </div>
           </div>
         </div>
