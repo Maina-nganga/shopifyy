@@ -1,68 +1,74 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { useLocation } from 'react-router-dom'
-import { FilterIcon, GridIcon, ListIcon } from 'lucide-react'
-import ProductCard from '../Components/ProductCard/productcard'
+import React, { useEffect, useState, useCallback } from "react"
+import { useLocation } from "react-router-dom"
+import { GridIcon, ListIcon } from "lucide-react"
+import ProductCard from "../Components/ProductCard/productcard"
+
+const categoryMap = {
+  accessories: ["accessories", "jewelery", "jewelry"],
+  clothing: ["clothing", "men's clothing", "women's clothing"],
+  home: ["home", "home & kitchen", "kitchen"],
+  electronics: ["electronics"],
+}
 
 const Products = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const categoryParam = queryParams.get('category')
-  const searchTermParam = queryParams.get('search')
 
-  const [category, setCategory] = useState(categoryParam || '')
-  const [sortBy, setSortBy] = useState('featured')
-  const [viewMode, setViewMode] = useState('grid')
+  const categoryParam = queryParams.get("category")
+  const searchTermParam = queryParams.get("search")
+
+  const [category] = useState(categoryParam || "")
+  const [sortBy, setSortBy] = useState("featured")
+  const [viewMode, setViewMode] = useState("grid")
   const [products, setProducts] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
-  const [priceRange, setPriceRange] = useState([0, 300])
-  const [showFilters, setShowFilters] = useState(false)
+  const [priceRange] = useState([0, 300])
 
-  // Helpers
-  const getRating = (p) => {
-    if (!p) return 0
-    if (p.rating && typeof p.rating === 'object') return p.rating.rate || 0
-    return typeof p.rating === 'number' ? p.rating : 0
-  }
+  // ✅ Proper rating extractor for FakeStore API
+  const getRating = (product) => {
+    if (!product?.rating) return 0
 
-  const getRatingCount = (p) => {
-    if (!p) return 0
-    if (p.rating && typeof p.rating === 'object') return p.rating.count || 0
-    return 0
-  }
-
-  const categoryMap = {
-    accessories: ['accessories', 'jewelery', 'jewelry'],
-    clothing: ["clothing", "men's clothing", "women's clothing"],
-    home: ['home', 'home & kitchen', 'kitchen'],
-    electronics: ['electronics']
-  }
-
-  const matchesCategory = useCallback((product, cat) => {
-    if (!cat) return true
-
-    const prodCat = (product.category || '').toString().toLowerCase()
-    const normalized = cat.toString().toLowerCase()
-
-    if (prodCat === normalized || prodCat.includes(normalized)) return true
-
-    const mapped = categoryMap[normalized]
-    if (mapped && mapped.some(m => prodCat === m || prodCat.includes(m))) {
-      return true
+    if (typeof product.rating === "object") {
+      return product.rating.rate || 0
     }
 
-    return false
-  }, [])
+    return product.rating || 0
+  }
 
-  // Fetch Products
+  // ✅ Fixed dependency (added categoryMap)
+  const matchesCategory = useCallback(
+    (product, cat) => {
+      if (!cat) return true
+
+      const prodCat = (product.category || "").toLowerCase()
+      const normalized = cat.toLowerCase()
+
+      if (prodCat === normalized || prodCat.includes(normalized)) {
+        return true
+      }
+
+      const mapped = categoryMap[normalized]
+      if (mapped && mapped.some((m) => prodCat.includes(m))) {
+        return true
+      }
+
+      return false
+    },
+    []
+  )
+
+  // ✅ Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products")
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
 
         const data = await response.json()
+
         const productsToSet = Array.isArray(data)
           ? data
           : Array.isArray(data.products)
@@ -78,7 +84,7 @@ const Products = () => {
     fetchProducts()
   }, [])
 
-  // Filtering + Sorting
+  // ✅ Filtering + Sorting
   useEffect(() => {
     if (!Array.isArray(products)) {
       setFilteredProducts([])
@@ -94,7 +100,7 @@ const Products = () => {
     if (searchTermParam) {
       currentProducts = currentProducts.filter((product) =>
         product.title
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(searchTermParam.toLowerCase())
       )
     }
@@ -108,13 +114,13 @@ const Products = () => {
     const sortedProducts = [...currentProducts]
 
     switch (sortBy) {
-      case 'price-low-high':
+      case "price-low-high":
         sortedProducts.sort((a, b) => a.price - b.price)
         break
-      case 'price-high-low':
+      case "price-high-low":
         sortedProducts.sort((a, b) => b.price - a.price)
         break
-      case 'rating':
+      case "rating":
         sortedProducts.sort(
           (a, b) => getRating(b) - getRating(a)
         )
@@ -127,50 +133,20 @@ const Products = () => {
   }, [
     products,
     categoryParam,
-    sortBy,
-    priceRange,
     searchTermParam,
-    matchesCategory
+    priceRange,
+    sortBy,
+    matchesCategory,
   ])
-
-  const handleCategoryChange = (e) => {
-    const value = e.target.value
-    setCategory(value)
-
-    const params = new URLSearchParams(location.search)
-
-    if (value) {
-      params.set('category', value)
-    } else {
-      params.delete('category')
-    }
-
-    window.history.replaceState(
-      {},
-      '',
-      `${location.pathname}?${params.toString()}`
-    )
-  }
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value)
-  }
-
-  const handlePriceChange = (e, index) => {
-    const newRange = [...priceRange]
-    newRange[index] = parseInt(e.target.value)
-    setPriceRange(newRange)
-  }
-
-  const toggleFilters = () => {
-    setShowFilters(!showFilters)
   }
 
   return (
     <div className="bg-white w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row gap-6">
-
           <div className="flex-1">
 
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-3 border-b border-gray-200">
@@ -180,8 +156,9 @@ const Products = () => {
                     ? category.charAt(0).toUpperCase() + category.slice(1)
                     : searchTermParam
                     ? `Search Results for "${searchTermParam}"`
-                    : 'All Products'}
+                    : "All Products"}
                 </h1>
+
                 <p className="text-gray-500 text-sm mt-1">
                   {filteredProducts.length} products
                 </p>
@@ -203,21 +180,22 @@ const Products = () => {
 
                 <div className="hidden sm:flex border border-gray-300 rounded-md">
                   <button
-                    onClick={() => setViewMode('grid')}
+                    onClick={() => setViewMode("grid")}
                     className={`p-2 ${
-                      viewMode === 'grid'
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-500'
+                      viewMode === "grid"
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-500"
                     }`}
                   >
                     <GridIcon className="h-5 w-5" />
                   </button>
+
                   <button
-                    onClick={() => setViewMode('list')}
+                    onClick={() => setViewMode("list")}
                     className={`p-2 ${
-                      viewMode === 'list'
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-500'
+                      viewMode === "list"
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-500"
                     }`}
                   >
                     <ListIcon className="h-5 w-5" />
@@ -232,7 +210,7 @@ const Products = () => {
                   No products found. Try adjusting your filters.
                 </p>
               </div>
-            ) : viewMode === 'grid' ? (
+            ) : viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
@@ -245,6 +223,7 @@ const Products = () => {
                 ))}
               </div>
             )}
+
           </div>
         </div>
       </div>
